@@ -1,0 +1,62 @@
+class Node:
+    def __init__ (self, key , val):
+        self.key=key
+        self.val=val
+        self.prev=None
+        self.next=None
+
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        self.cap=capacity
+        self.cache={}
+
+         # Dummy head and tail to avoid edge conditions
+        self.left=Node(0,0)
+        self.right=Node(0,0)
+
+        self.left.next=self.right
+        self.right.prev=self.left
+
+    def remove(self,node):
+        prev=node.prev
+        next=node.next
+        prev.next=next
+        next.prev=prev
+
+    def insert(self,node):
+        prev=self.right.prev
+        next=self.right
+        prev.next=node
+        next.prev=node
+        node.prev=prev
+        node.next=next
+
+    def get(self, key: int) -> int:
+        if key in self.cache:
+            self.remove(self.cache[key])
+            self.insert(self.cache[key])
+            return self.cache[key].val
+        return -1
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.cache:
+            self.remove(self.cache[key])
+        self.cache[key]=Node(key, value)
+        self.insert(self.cache[key])
+
+        if len(self.cache)>self.cap:
+            lru=self.left.next
+            self.remove(lru)
+            del self.cache[lru.key]
+
+
+#https://chatgpt.com/share/68021759-2818-8010-b7e9-5b86ed4c8bab
+
+#https://chatgpt.com/share/680afe47-0760-8010-a65b-cb8436610fb4
+
+
+
+
+
+

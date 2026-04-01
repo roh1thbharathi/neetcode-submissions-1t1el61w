@@ -1,0 +1,22 @@
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
+        res=nums[0]
+        l=0
+        r=len(nums)-1
+        while l<=r:
+            if nums[l] <= nums[r]:
+                return min(res,nums[l])
+            m=(l+r)//2
+            res=min(res,nums[m])
+            if nums[l]<=nums[m]:
+                l=m+1
+            else:
+                r=m-1
+        return res
+
+
+# For rotated array problems:
+
+# Check if the current range is sorted
+# Determine which half is sorted
+# Move to the unsorted half
